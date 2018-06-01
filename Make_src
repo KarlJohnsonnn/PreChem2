@@ -1,0 +1,31 @@
+include $(IN2) 
+
+OBJ = mo_unirnk.f90\
+      LexicalStringSort.f90\
+      Kind_Mod.f90\
+      mo_control.f90\
+      mo_reac.f90\
+      String_Mod.f90\
+      HashStr_Mod.f90\
+      InputTool_Mod.f90\
+      ChemSys_Mod.f90\
+      fp_parameters.f90\
+      fparser.f90\
+      PreChem2.f90
+      
+
+
+      
+$(LIB2)/lib$(CHEM).a: $(OBJ)
+	@if [ -f *.o ] ;\
+          then  rm *.o ;\
+   fi
+   
+	$(F90) $(OPT2)  -I. $(KINCL) -c $?
+	@ar $(X64) rv $(LIB2)/lib$(CHEM).a ${?:.f90=.o}
+	@ar $(X64) ts $(LIB2)/lib$(CHEM).a
+	-@for i in `ls *.mod 2>/dev/null`; do \
+           mv $$i $(LIB2); \
+        done
+	@rm *.o
+
